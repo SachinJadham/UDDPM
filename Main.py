@@ -28,9 +28,10 @@ EPOCHS = 500
 NOISE_STEPS = 1000
 LEARNING_RATE = 0.0001
 
-CHECKPOINT_PATH = r'checkpoint/Training2'
-CHECKPOINT_SAVE_PATH = r'checkpoint/Training3'
-CHECKPOINT_NAME = r'ddpm_ckpt_64_12_after94Epochs.pth'
+SAVED_CHECKPOINT_PATH = r'checkpoint/TrainingX'
+SAVED_CHECKPOINT_NAME = r'ddpm_ckpt_64_12_after94Epochs.pth'
+
+CHECKPOINT_SAVE_PATH = r'checkpoint/Training1'
 
 
 def get_data(root_dir=IMAGES_DIR, image_size=IMAGE_SIZE, batch_size=BATCH_SIZE):
@@ -79,12 +80,12 @@ criterion = torch.nn.MSELoss()
 
 # ================================ Load Checkpoint (if found) ====================================== #
 # Load checkpoint if found
-if os.path.exists(os.path.join(CHECKPOINT_PATH, CHECKPOINT_NAME)):
+if os.path.exists(os.path.join(SAVED_CHECKPOINT_PATH, SAVED_CHECKPOINT_NAME)):
     print('Loading checkpoint as found one')
-    model.load_state_dict(torch.load(os.path.join(CHECKPOINT_PATH, CHECKPOINT_NAME), map_location=DEVICE))
+    model.load_state_dict(torch.load(os.path.join(SAVED_CHECKPOINT_PATH, SAVED_CHECKPOINT_NAME), map_location=DEVICE))
 
 # ==================================== Training ========================================== #
-TRAINING = False
+TRAINING = True
 
 if TRAINING:
     # writer = SummaryWriter('runs/Training')  # TensorBoard Writer
