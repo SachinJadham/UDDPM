@@ -20,7 +20,7 @@ from torchvision.utils import make_grid
 # ============================================ HyperParameters ==================================== #
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # IMAGES_DIR = r'C:\Users\yaa5kor\tensorflow_datasets\FLowerIMages'
-IMAGES_DIR = r'/home/i_sjadham77/Datasets/streetview3k/'
+IMAGES_DIR = r'/home/i_sjadham77/UUDPM/streetview3k/'
 IMAGE_SIZE = 64
 BATCH_SIZE = 12
 EPOCHS = 500
