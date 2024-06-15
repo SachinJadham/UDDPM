@@ -4,7 +4,7 @@ from Dataset import TensorDataset, Rescale, ToTensor, RandomResizedCrop, Normali
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 
-from diffusion import Diffusion
+from Diffusion import Diffusion
 from tqdm import tqdm
 
 from Model import Unet
