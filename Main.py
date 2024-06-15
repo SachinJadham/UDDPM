@@ -1,6 +1,6 @@
 import torch.utils.data
 from torchvision import transforms, utils
-from DataSet import TensorDataset, Rescale, ToTensor, RandomResizedCrop, NormalizeImage
+from Dataset import TensorDataset, Rescale, ToTensor, RandomResizedCrop, NormalizeImage
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 
