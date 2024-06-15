@@ -100,8 +100,8 @@ class TensorDataset(Dataset):
         # read all the files in the given path; [image path, class] * x
         file_list = glob.glob(root_dir + "/*")
         for class_path in file_list:
-            class_name = class_path.split("\\")[-1]
-            for img_path in glob.glob(class_path + "/*.jpg"):
+            class_name = class_path.split("/")[-1]
+            for img_path in glob.glob(class_path + "/*.png"):
                 self.data.append([img_path, class_name])
         self.data = np.array(self.data)  # convert to numpy array for better indexing.
         print(f'Read {len(self.data)} Images and {len(np.unique(self.data[:, 1]))} classes from {root_dir}')
@@ -136,7 +136,7 @@ class TensorDataset(Dataset):
 if __name__ == "__main__":
     # ------------------- TensorDataset ------------------ #
     # create a 'TensorDataset'; for easy iteration, indexing and slicing along the First dimension of [data and labels]
-    train_ds = TensorDataset(r'C:\Users\yaa5kor\Documents\DataSc\DL\DATA_SET\landscape_dataset\images_smallBatch',
+    train_ds = TensorDataset(r'/home/i_sjadham77/Datasets/streetview3k/',
                              transform_list=transforms.Compose([Rescale(416),
                                                                 RandomResizedCrop(416),
                                                                 NormalizeImage(mean=0.5, std=0.5),
