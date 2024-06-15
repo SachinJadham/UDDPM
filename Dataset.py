@@ -136,7 +136,7 @@ class TensorDataset(Dataset):
 if __name__ == "__main__":
     # ------------------- TensorDataset ------------------ #
     # create a 'TensorDataset'; for easy iteration, indexing and slicing along the First dimension of [data and labels]
-    train_ds = TensorDataset(r'/home/i_sjadham77/UUDPM/streetview3k/',
+    train_ds = TensorDataset(r'/home/i_sjadham77/UUDPM/streetview3k',
                              transform_list=transforms.Compose([Rescale(416),
                                                                 RandomResizedCrop(416),
                                                                 NormalizeImage(mean=0.5, std=0.5),
