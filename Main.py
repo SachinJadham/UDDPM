@@ -20,7 +20,7 @@ from torchvision.utils import make_grid
 # ============================================ HyperParameters ==================================== #
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # IMAGES_DIR = r'C:\Users\yaa5kor\tensorflow_datasets\FLowerIMages'
-IMAGES_DIR = r'/home/i_sjadham77/UUDPM/streetview3k/'
+IMAGES_DIR = r'/home/i_sjadham77/UDDPM/streetview3k'
 IMAGE_SIZE = 64
 BATCH_SIZE = 12
 EPOCHS = 500
@@ -118,9 +118,9 @@ if TRAINING:
             # gradient descent
             optimizer.step()
 
-            if i % 10 == 9:  # every 10 mini-batches.
-                writer.add_scalar('training loss', np.mean(losses),
-                                  epoch_i * len(train_dl) + i)
+            # if i % 10 == 9:  # every 10 mini-batches.
+            #     writer.add_scalar('training loss', np.mean(losses),
+            #                       epoch_i * len(train_dl) + i)
 
         print('Finished epoch:{} | Loss : {:.4f}'.format(
             epoch_i + 1,
