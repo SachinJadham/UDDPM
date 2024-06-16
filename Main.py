@@ -28,20 +28,20 @@ EPOCHS = 500
 NOISE_STEPS = 1000
 LEARNING_RATE = 0.0001
 
-SAVED_CHECKPOINT_PATH = r'checkpoint/TrainingX'
-SAVED_CHECKPOINT_NAME = r'ddpm_ckpt_64_12_after94Epochs.pth'
+SAVED_CHECKPOINT_PATH = r'checkpoint/Training1'
+SAVED_CHECKPOINT_NAME = r'ddpm_ckpt_64_12_after200Epochs.pth'
 
-CHECKPOINT_SAVE_PATH = r'checkpoint/Training1'
+CHECKPOINT_SAVE_PATH = r'checkpoint/Training2'
 
 
 def get_data(root_dir=IMAGES_DIR, image_size=IMAGE_SIZE, batch_size=BATCH_SIZE):
     # ========================================== TensorDataset ======================================== #
     train_ds = TensorDataset(root_dir,
-                                   transform_list=transforms.Compose([Rescale(image_size),
-                                                                      RandomResizedCrop(image_size),
-                                                                      NormalizeImage(mean=0.5, std=0.5),
-                                                                      ToTensor()
-                                                                      ]))
+                             transform_list=transforms.Compose([Rescale(image_size),
+                                                                RandomResizedCrop(image_size),
+                                                                NormalizeImage(mean=0.5, std=0.5),
+                                                                ToTensor()
+                                                                ]))
 
     # ========================================== DataLoader =========================================== #
     # create a 'DataLoader'; for managing batches. Each iteration would return a batch.
@@ -126,9 +126,11 @@ if TRAINING:
             epoch_i + 1,
             np.mean(losses),
         ))
-        torch.save(model.state_dict(),
-                   os.path.join(CHECKPOINT_SAVE_PATH,
-                                'ddpm_ckpt_{}_{}_after{}Epochs.pth'.format(IMAGE_SIZE, BATCH_SIZE, epoch_i+1)))
+
+        if epoch_i % 10 == 9:  # save checkpoint every 10 epoch
+            torch.save(model.state_dict(),
+                       os.path.join(CHECKPOINT_SAVE_PATH,
+                                    'ddpm_ckpt_{}_{}_after{}Epochs.pth'.format(IMAGE_SIZE, BATCH_SIZE, epoch_i + 1)))
 print('Training Finished')
 
 # ============================== Sampling/Inference ==================================== #
@@ -154,17 +156,19 @@ with torch.no_grad():
         #========================== Save x0: custom ==================================#
         import cv2
         from PIL import Image
+
         PIL_images_list = []
         for img_sample_i in range(SAMPLES):
-            img = xt[img_sample_i]      # [1, 3, 416, 416]
-            img = torch.squeeze(img)    # [3, 416, 416]
+            img = xt[img_sample_i]  # [1, 3, 416, 416]
+            img = torch.squeeze(img)  # [3, 416, 416]
             img = torch.clamp(img, -1., 1.).detach().cpu()
-            img = img.numpy().transpose((1, 2, 0))    # C x H x W  -> H x W x C
+            img = img.numpy().transpose((1, 2, 0))  # C x H x W  -> H x W x C
             img = cv2.normalize(img, None, alpha=0.001, beta=1, norm_type=cv2.NORM_MINMAX)  # [0, 1] range
             img = (img * 255).astype(np.uint8)
             # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             img = Image.fromarray(img)
             PIL_images_list.append(img)
+
 
         def image_grid(imgs, rows, cols):
             assert len(imgs) == rows * cols
@@ -176,6 +180,7 @@ with torch.no_grad():
             for i, img in enumerate(imgs):
                 grid.paste(img, box=(i % cols * w, i // cols * h))
             return grid
+
 
         img = image_grid(PIL_images_list, rows=1, cols=SAMPLES)
         # ========================== Save x0: custom ==================================#
